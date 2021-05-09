@@ -1,0 +1,56 @@
+通过可视化的方式创建vue项目
+
+在插件中，安装vue-cli-plugin-element插件，安装完成之后，配置，将fully impot(默认)修改为import on demand(即将element插件完整导入修改为按需导入)，完成安装
+
+在依赖中，安装axios依赖(注意：是安装到运行依赖中)
+
+创建server文件夹，用于放置node.js和mongodb相关文件
+
+终端切换到server文件夹下，输入npm init初始化，通过输入npm install --save 第三方模块名称 来安装第三方模块(注意：--save 第三方模块名称 表示安装并写入package.json的dependencies，--save --dev第三方模块名称 表示安装并写入package.json的devDependencies)
+
+关闭ESLint代码校验，打开.eslintrc.js文件，删除extends中的@vue/standard
+
+删除没有用到的的组件和路由，删除App根组件中的东西，删除views目录下的Home组件和About组件和对应的路由规则，删除components目录下的HelloWorld组件，删除assets目录下的logo.png
+
+创建单文件组件，分为三个结构，template、script、style；其中<style lang="less"scoped></style>
+中的lang="less"表示支持less语法，scoped是vue的指令，表示当前style只在当前单文件组件中有效
+
+因为用到了less语法，需要安装less相关的依赖，在依赖中安装运行依赖less和less-loader
+
+单文件写完之后，在路由文件(router目录下的index.js)中添加路由规则({path:"xxx",component:"xxx"}),最后在App根组件中添加一个路由占位符(<router-view></router-view>)；当用户访问了某个url，这个url在路由文件中找到对应的路由规则和对应的单文件组件，此时App根组件的路由占位符就会渲染这个url对应的单文件组件
+
+登录/注册表单
+先给form表单绑定数据对象；表单中，:model="form"；script中，form{username:'',password:''}；用户名input中，v-model='form.username'，密码input中，v-model='form.password'
+再给表单绑定表单的验证规则；表单中，:rules='rules'；script中，rules{usernamerules:[{是否必填},{长度}],passwordrules:[{是否必填},{长度}]}；用户名el-form-item中，prop='usernamerules'，密码el-form-item中，prop='passwordrules'
+在输入完登录/注册信息并发起登录/注册请求时，还要进行一次预校验(通过调用form提供的validate方法对整个表单进行校验)
+
+编写后端
+通过express创建web服务器，监听8080端口，连接mongo数据库(连接数据库之前需要开启mongo服务器，在mongod.exe文件的所在目录的终端输入mongod --dbpath=F:\1毕业设计\Blog\blog\server\db --port=27017)
+
+
+遇到的困难：
+注意：有些路由的url是一样的，但是请求的方式不一样
+1、关闭ESLint语法校验，打开.eslintrc.js文件，注释 '@vue/standard' 即可
+2、登录token
+3、在定义一个用于接收后端返回的数据(数据有可能是数组或者对象)的变量时，要注意变量的究竟是数组还是对象
+4、使用el-pagination时，没有留意到page-size(其默认值为10)，导致展示数据时没有完全展示出来
+5、在asyn函数中调用元素的style时报错，但不影响程序的执行
+6、element-ui中的el-table中的表头的高度，默认为184px左右，想要修改表头的高度，需要把布局容器的el-main的样式中写一句line-height: 20px !important；(其中20px就是表头的高度)；在项目中el-main的样式是写在Admin.vue组件中
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
